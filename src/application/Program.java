@@ -12,11 +12,11 @@ public class Program {
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        System.out.println("rom number: ");
+        System.out.print("rom number: ");
         int number = sc.nextInt();
-        System.out.println("check-in date (dd/MM/yyyy): ");
+        System.out.print("check-in date (dd/MM/yyyy): ");
         Date checkIn = sdf.parse(sc.next());
-        System.out.println("check-out date (dd/MM/yyyy): ");
+        System.out.print("check-out date (dd/MM/yyyy): ");
         Date checkOut = sdf.parse(sc.next());
 
         if (!checkOut.after(checkIn)) {
@@ -31,16 +31,15 @@ public class Program {
             checkIn = sdf.parse(sc.next());
             System.out.println("check-out date (dd/MM/yyyy): ");
             checkOut = sdf.parse(sc.next());
-            
-            Date now = new Date();
-            if(checkIn.before(now) || checkOut.before(now)){
-                System.out.println("Error na reserva: As data para atualização das reservas devem ser futuras");
-            } else if (!checkOut.after(checkIn)){
-                System.out.println("A data de check-out deve ser posterior à data de check-in");
+
+            String error = reserva.updateDates(checkIn, checkOut);
+            if (error != null) {
+                System.out.println("error na reserva" + error);
+            } else {
+                System.out.println("Reserva" + reserva);
+
             }
-                        
-            reserva.updateDates(checkIn, checkOut);
-            System.out.println("Reserva" + reserva);
+
         }
         sc.close();
     }

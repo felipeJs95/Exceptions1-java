@@ -43,14 +43,22 @@ public class Reserva {
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date checkIn, Date checkOut) {
+    public String updateDates(Date checkIn, Date checkOut) {
+        Date now = new Date();
+        if (checkIn.before(now) || checkOut.before(now)) {
+            return "Error na reserva: As data para atualização das reservas devem ser futuras";
+        }
+        if (!checkOut.after(checkIn)) {
+            return "A data de check-out deve ser posterior à data de check-in";
+        }
         this.checkIn = checkIn;
         this.checkOut = checkOut;
+        return null;
     }
 
     @Override
     public String toString() {
-        return "Reserva" + romNumber + ", check-in:" + sdf.format(checkIn) + ", checkOut" + sdf.format(checkOut) + "," + duracao + "noites";
+        return "Reserva" + romNumber + ", check-in:" + sdf.format(checkIn) + ", checkOut" + sdf.format(checkOut) + "," + duracao() + " noites";
     }
 
 }
